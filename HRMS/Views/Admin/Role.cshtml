@@ -1,0 +1,104 @@
+﻿@model HRMS.Models.Role
+@{
+    ViewData["Title"] = "Role";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        @if (TempData["RoleMessage"] != null)
+        {
+            <div class="alert alert-success">
+                <strong>@TempData["RoleMessage"] </strong>
+            </div>
+        }
+        @if (TempData["RoleDeleteMessage"] != null)
+        {
+            <div class="alert alert-success">
+                <strong>@TempData["RoleDeleteMessage"] </strong>
+
+            </div>
+        }
+        <form action="/Admin/Role" method="post">
+            <fieldset class="mb-3">
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Role:</label>
+                        @Html.HiddenFor(m => m.RoleId, new { @class = "form-control", @id = "RoleId" })
+                        @Html.TextBoxFor(x => x.RoleName, new { @class = "form-control", @required = "true", @name = "role", @id = "Role" })
+
+                    </div>
+                    <div class="text-right">
+                        <br />
+                        <br />
+                        <button type="submit" class="btn btn-primary" id="button">Submit</button>
+                        <button type="reset" value="Reset" onclick="window.location.reload()" class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table id="default-datatable" class="table  table-bordered table-hover ">
+            <thead>
+                <tr>
+                    <th>Sl. No</th>
+                    <th>Role Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int count = 0;}
+                @foreach (var item in ViewBag.data)
+                {
+                    count = count + 1;
+                    <tr role="row" class="even">
+                        <td>@count</td>
+                        <td class="sorting_1">@item.RoleName</td>
+                        <td>
+                            <div class="list-icons">
+                                <div class="dropdown">
+                                    <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                        <i class="icon-menu9"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="#" onclick="Edit(@item.RoleId)" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>
+                                        <a href="~/Admin/DeleteRole/@item.RoleId" onclick="return confirm('Are you sure want to delete this record?')" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+   
+  
+</div>
+
+<script>
+   
+    function Edit(id)
+ {
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: "/Admin/EditRole",
+            data: { id: id },
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                $("#button").text("Update");
+                $("#RoleId").val(data.roleId);
+                $("#Role").val(data.roleName);
+            }
+        });
+    }
+
+</script>
+

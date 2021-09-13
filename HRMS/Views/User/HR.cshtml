@@ -1,0 +1,91 @@
+﻿@model HRMS.Models.Sp_Recruitment
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<form action="/User/HR" method="get">
+    <div class="card">
+        <div class="card-body">
+            @Html.HiddenFor(x => x.PositionId, new { @class = "form-control", @name = "Id", @id = "Id" })
+
+            <table id="default-datatable" class="table table-bordered" role="grid" aria-describedby="default-datatable_info">
+                <thead>
+                    <tr>
+                        <th>Sl. No</th>
+                        <th>Position </th>
+                        <th>Technology</th>
+                        <th>No Of Resources</th>
+                        <th>Remark</th>
+                        <th>Experience</th>
+
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int count = 0;}
+
+                    @foreach (var iteam in ViewBag.Store)
+                    {
+                        count = count + 1;
+                        <tr role="row" class="even">
+                            <td>@count</td>
+                            <td>@iteam.Position</td>
+                            <td>@iteam.Technology</td>
+                            <td>@iteam.NoofResources</td>
+                            <td>@iteam.Remark</td>
+                            <td>@iteam.Experience</td>
+                            <td class="text-center">
+                                <div class="list-icons">
+                                    <div class="dropdown">
+                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="/User/CreateJobProfile"onclick="Edit(@iteam.PositionId)" class="dropdown-item"><i class="fa fa-edit"></i> Create Job Profile</a>
+                                            <a href="#" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script>
+
+        function Edit(Id) {
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: "/User/CreateJobProfile",
+                data: { Id: Id }, 
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                   /* $("#Submit").text("Update");*/
+                    $("#Id").val(data.PositionId);
+                    //$("#firstname").val(data.firstName);
+                    //$("#lastname").val(data.lastName);
+                    //$("#mobileno").val(data.mobileNo);
+                    //$("#email").val(data.email);
+                    //$("#dob").val(data.dob);
+                    //$("#departmentname").val(data.departmentName);
+                    //$("#designation").val(data.designation);
+                    //$("#rolename").val(data.roleName);
+                    //var appvdate = f4.split('-');
+
+                    //var today = appvdate[2] + "-" + (appvdate[1]) + "-" + (appvdate[0]);
+
+                    //$('#dob').val(today);
+                }
+            });
+        }
+
+
+
+    </script>

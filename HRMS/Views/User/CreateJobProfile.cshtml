@@ -1,0 +1,70 @@
+﻿@model HRMS.Models.JobRequest
+@{
+    ViewData["Title"] = "Manager";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Raw(TempData["msg"])
+<div class="card">
+    <div class="card-body">
+        <form action="/User/Recruitment" method="post">
+            <fieldset class="mb-3">
+                <div class=" row">
+                    <div class="col-lg-4">
+                        
+                        <label class="col-form-label">RecruitmentId:</label>
+
+                        @*<input type="text" readonly="readonly" value="@Model.RecruitmentId" name="RecruitmentId" id="RecruitmentId" class="form-control" />*@
+                        @Html.HiddenFor(x => x.Id, new { @class = "form-control", @name = "Id", @id = "Id" })
+                        <span class="spann">@Model.RecruitmentId</span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Position:</label>
+                        <span class="spann"></span>
+
+                    </div>
+                    @*<div class="col-lg-4">
+            <label class="col-form-label">Technology:</label>
+            @Html.TextBoxFor(x => x.Technology, new { @class = "form-control", @required = "true", @name = "Technology", @id = "Technology" })
+        </div>*@
+                <div class="col-lg-4">
+                    <label class="col-form-label">Experience:</label>
+                    <span class="spann"></span>
+                    @Html.HiddenFor(x => x.Experience, new { @class = "form-control", @name = "Experience", @id = "Experience" })
+                </div>
+                <div class="col-lg-4">
+                    <label class="col-form-label">NoofResource:</label>
+                    <span class="spann"></span>
+                    @Html.HiddenFor(x => x.NoofResource, new { @class = "form-control", @name = "NoofResource", @id = "NoofResource" })
+
+                </div>
+                <div class="col-lg-4">
+                    <label class="col-form-label">Remark:</label>
+                    <span class="spann"></span>
+                    @Html.HiddenFor(x => x.Remark, new { @class = "form-control", @name = "Remark", @id = "Remark" })
+
+                </div>
+                <div class="col-lg-4">
+                    <label class="col-form-label">Technology:</label>
+
+                    <span class="spann"></span>
+                    @Html.HiddenFor(x => x.Technology, new { @class = "form-control", @name = "Technology", @id = "Technology" })
+
+                </div>
+                <div class="col-lg-4">
+                    <label class="col-form-label">Hr Remark:</label>
+                    <span class="spann"></span>
+                    @Html.HiddenFor(x => x.Hrremark, new { @class = "form-control", @name = "Hrremark", @id = "Hrremark" })
+                </div>
+                    <div class="col-lg-4 mtop">
+                        <div class="btn-group">
+                            <button id="button" type="submit" class="btn btn-primary mr">Submit </button>
+                            <button type="reset" value="Reset" onclick="window.location.reload()" class="btn btn-danger">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+

@@ -1,0 +1,99 @@
+﻿@model HRMS.Models.Designation
+@{
+    ViewData["Title"] = "Designation";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        @if (TempData["DesgMessage"] != null)
+        {
+            <div class="alert alert-success">
+                <strong>@TempData["DesgMessage"]</strong>
+            </div>
+        }
+        @if (TempData["DesgDeleteMessage"] != null)
+        {
+            <div class="alert alert-success">
+                <strong>@TempData["DesgDeleteMessage"] </strong>
+            </div>
+        }
+        <form action="/Admin/Designation" method="post">
+            <fieldset class="mb-3">
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Designation:</label>
+                        @Html.HiddenFor(m => m.DesignationId, new { @class = "form-control", @id = "DesignationId" })
+                        @Html.TextBoxFor(x => x.DesignationName, new { @class = "form-control", @required = "true", @name = "Designation", @id = "Designation" })
+                    </div>
+                    <div class="text-right">
+                        <br />
+                        <br />
+                        <button type="submit" class="btn btn-primary" id="button">Submit</button>
+                        <button type="reset" value="Reset" onclick="window.location.reload()" class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered table-hover" id="default-datatable">
+            <thead>
+                <tr>
+                    <th>Sl. No</th>
+                    <th>Designation Name</th>
+
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int count = 0;}
+                @foreach (var item in ViewBag.data)
+                {
+                    count = count + 1;
+                    <tr role="row" class="even">
+                        <td>@count</td>
+                        <td class="sorting_1">@item.DesignationName</td>
+                        <td>
+                            <div class="list-icons">
+                                <div class="dropdown">
+                                    <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                        <i class="icon-menu9"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="#" onclick="Edit(@item.DesignationId)" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>
+                                        <a href="~/Admin/DeleteDesignation/@item.DesignationId" onclick="return confirm('Are you sure want to delete this record?')" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script>
+    function Edit(id) {
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: "/Admin/EditDesignation",
+            data: { id: id },
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                $("#button").text("Update");
+                $("#DesignationId").val(data.designationId);
+                $("#Designation").val(data.designationName);
+            }
+        });
+    }
+
+</script>

@@ -1,0 +1,387 @@
+﻿@model HRMS.Models.EmpJoining
+
+@{
+    ViewData["Title"] = "JoiningForm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@if (TempData["msg"] != null)
+{
+    @Html.Raw(TempData["msg"])
+}
+<style>
+    .required:after {
+        content: " *";
+        color: red;
+    }
+</style>
+<form action="/EmpDetails/EmpJoining" method="post">
+    <div class="card">
+        <div class="card-body">
+            <h3>Personal Details</h3>
+            <fieldset class="mb-3">
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">First Name:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.FirstName, new { @class = "form-control", @required = "true", @name = "firstname", @id = "firstname" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Last Name:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.LastName, new { @class = "form-control", @required = "true", @name = "lastname", @id = "lastname" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Date of Joining:</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.EmpDtl.Doj, new { @type = "date", @class = "form-control", @required = "true", @name = "doj", @id = "doj" })
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Father/Spouse Name:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.Father_SpouseName, new { @class = "form-control", @required = "true", @name = "fsname", @id = "fsname" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Designation:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.DesignationName, new { @class = "form-control", @required = "true", @name = "designame", @id = "designame" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Date of Birth:</label>
+                        <div class="input-group">
+                            @Html.TextBoxFor(x => x.EmpDtl.Dob, new { @type = "date", @class = "form-control", @required = "true", @name = "dob", @id = "dob" })
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Gender:</label>
+                        @Html.DropDownListFor(x => x.EmpDtl.Gender, Model.GenderList, new { @class = "form-control", @name = "gender", @id = "gender" })
+
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Marital Status:</label>
+                        @Html.DropDownListFor(x => x.EmpDtl.MaritialStatus, Model.MaritalList, new { @class = "form-control", @name = "maritalstatus", @id = "maritalstatus" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Blood Group:</label>
+                        @Html.DropDownListFor(x => x.EmpDtl.BloodGroup, Model.BloodGroupList, new { @class = "form-control", @name = "bloodgroup", @id = "bloodgroup" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Telephone Number:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.TelephoneNo, new { @class = "form-control", @name = "telephoneno", @id = "telephoneno" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Mobile Number:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.MobileNo, new { @class = "form-control", @required = "true", @title = "Ten digit Mobile Number", @pattern = @"^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$", @name = "mobileno", @id = "mobileno" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Email ID:</label>
+                        @Html.EditorFor(model => model.EmpDtl.Email, new { htmlAttributes = new { @class = "form-control", @required = "true", @pattern = @"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$", @name = "email", @id = "email" } })
+                        @*@Html.ValidationMessageFor(x => x.EmpDtl.Email, "", new { @class = "text-danger" })*@
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Alternative Email ID:</label>
+                        @Html.EditorFor(model => model.EmpDtl.AltEmail, new { htmlAttributes = new { @class = "form-control", @required = "true", @pattern = @"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$", @name = "altemail", @id = "altemail" } })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Aadhaar Number:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.AadhaarNo, new { @class = "form-control", @required = "true", @onblur = "AadharValidate", @title = "Twelve digit Aadhaar Number", @name = "aadhaarno", @id = "txtAadhar", @onchange = "AadharValidate()" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">PAN Card Number:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.PanCardNo, new { @class = "form-control", @required = "true", @title = "Ten digit PAN Number", @pattern = @"[A-Z]{5}[0-9]{4}[A-Z]{1}$", @name = "pancardno", @id = "lblPANCard" })
+                    </div>
+                </div>
+                <h6><b>Emergency Contact Details:</b></h6>
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Name:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.EmgContactName, new { @class = "form-control", @required = "true", @name = "emgcontactname", @id = "emgcontactname" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Relation with Employee:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.RelationWithEmp, new { @class = "form-control", @required = "true", @name = "reletionwithemp", @id = "reletionwithemp" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Contact Number:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.EmgContactNo, new { @class = "form-control", @required = "true", @title = "Ten digit Mobile Number", @pattern = @"^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$", @name = "emgcontactno", @id = "emgcontactno" })
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h3>Address Information</h3>
+            <fieldset class="mb-3">
+                <h6><b>Correspondence Address:</b></h6>
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Address Line 1:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.C_AddL1, new { @class = "form-control", @required = "true", @name = "caddl1", @id = "caddl1" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Address Line 2:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.C_AddL2, new { @class = "form-control", @required = "true", @name = "caddl2", @id = "caddl2" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">City:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.C_City, new { @class = "form-control", @required = "true", @name = "ccity", @id = "ccity" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">State/Province:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.C_State, new { @class = "form-control", @required = "true", @name = "cstate", @id = "cstate" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Zip/Postal Code:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.C_Zip, new { @class = "form-control", @required = "true", @pattern = @"[0-9]{6}", @title = "Six digit pin/zip code", @name = "czip", @id = "czip" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Country:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.C_Country, new { @class = "form-control", @required = "true", @name = "ccountry", @id = "ccountry" })
+                    </div>
+                </div>
+
+                <input type="checkbox" id="chk" onclick="SameAsCrspAdd()">
+                <label>
+                    <b style="font-weight:600;">
+                        Click if same with Correspondence Address
+                    </b>
+                </label>
+
+                <h6><b>Permanent Address:</b></h6>
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Address Line 1:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.P_AddL1, new { @class = "form-control", @required = "true", @name = "paddl1", @id = "paddl1" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Address Line 2:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.P_AddL2, new { @class = "form-control", @required = "true", @name = "paddl2", @id = "paddl2" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">City:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.P_City, new { @class = "form-control", @required = "true", @name = "pcity", @id = "pcity" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">State/Province:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.P_State, new { @class = "form-control", @required = "true", @name = "pstate", @id = "pstate" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Zip/Postal Code:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.P_Zip, new { @class = "form-control", @required = "true", @pattern = @"[0-9]{6}", @title = "Six digit pin/zip code", @name = "pzip", @id = "pzip" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Country:</label>
+                        @Html.TextBoxFor(x => x.EmpDtl.P_Country, new { @class = "form-control", @required = "true", @name = "pcountry", @id = "pcountry" })
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h3>Bank Account Details</h3>
+            <fieldset class="mb-3">
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Bank Name:</label>
+                        @Html.TextBoxFor(x => x.EmpBankDtl.BankName, new { @class = "form-control", @required = "true", @name = "bankname", @id = "bankname" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Account Number:</label>
+                        @Html.EditorFor(x => x.EmpBankDtl.AccountNo, new { htmlAttributes = new { @class = "form-control", @Type = "password", @required = "true", @name = "accountno", @id = "accountno" } })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">Confirm Account Number:</label>
+                        @Html.TextBoxFor(x => x.EmpBankDtl.ConfAccountNo, new { @class = "form-control", @required = "true", @name = "confaccountno", @id = "confaccountno" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label required">IFSC Code:</label>
+                        @Html.TextBoxFor(x => x.EmpBankDtl.IfscCode, new { @class = "form-control", @required = "true", @pattern = @"^[A-Z]{4}0[A-Z0-9]{6}$", @title = "Eleven digit IFSC Code", @name = "ifsccode", @id = "ifsccode" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">UAN Number (If you have):</label>
+                        @Html.TextBoxFor(x => x.EmpBankDtl.UanNo, new { @class = "form-control", @name = "uanno", @id = "uanno" })
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h3>Educational Details</h3>
+            <fieldset class="mb-3">
+                <div class="form-group row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td>Degree</td>
+                                <td>University/Institute</td>
+                                <td>From</td>
+                                <td>To</td>
+                                <td>Percentage Grade</td>
+                                <td>Specification</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+                        <tbody id="Education1">
+                            <tr>
+                                <td><input type="text" class="form-control" name="degree" id="degree" /></td>
+                                <td><input type="text" class="form-control" name="university" id="university" /></td>
+                                <td><input type="date" class="form-control" name="dfrom" id="dfrom" /></td>
+                                <td><input type="date" class="form-control" name="dto" id="dto" /></td>
+                                <td><input type="text" class="form-control" name="percentagegrade" id="percentagegrade" /></td>
+                                <td><input type="text" class="form-control" name="specification" id="specification" /></td>
+                                <td><button type="button" onclick="AddMore1()" class="btn btn-outline-primary">+</button></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h3>Professional Details</h3>
+            <fieldset class="mb-3">
+                <div class="form-group row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td>Name of the Organization</td>
+                                <td>Designation</td>
+                                <td>Job Location</td>
+                                <td>Work Duration</td>
+                                <td>Manager's Contact Details</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+                        <tbody id="Education2">
+                            <tr>
+                                <td><input type="text" class="form-control" name="prvorganisiation" id="prvorganisiation" /></td>
+                                <td><input type="text" class="form-control" name="prvdesignation" id="prvdesignation" /></td>
+                                <td><input type="text" class="form-control" name="prvlocation" id="prvlocation" /></td>
+                                <td><input type="text" class="form-control" name="prvworkduration" id="prvworkduration" /></td>
+                                <td><input type="text" class="form-control" name="prvmanagerno" id="prvmanagerno" /></td>
+                                <td><button type="button" onclick="AddMore2()" class="btn btn-outline-primary">+</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h3>Declaration</h3>
+            <fieldset class="mb-3">
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <div class="form-check">
+                            <input type="checkbox" name="declaration" id="declaration" class="form-check-input" onclick="EnableDisableTextBox(this)">
+                            <label class="required">
+                                <b style="font-weight:600;">
+                                    I hereby declare that the above statements made in my application form are true, complete and correct the best of my knowledge and belief. In the event of any information being found false or incorrect at any stage, my service are liable to be terminated without notice.
+                                </b>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mtop">
+                            <div class="btn-group" style="float:right;">
+                                <button type="submit" id="Submit" disabled class="btn btn-primary mr">Submit</button>
+                                <button type="reset" onclick="window.location.reload()" class="btn btn-danger mr " value="Reset">Cancel</button>
+                            </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    function AadharValidate() {
+        var aadhar = document.getElementById("txtAadhar").value;
+        var adharcardTwelveDigit = /^\d{12}$/;
+        if (aadhar != '') {
+            if (aadhar.match(adharcardTwelveDigit)) {
+                return true;
+            }
+            else {
+                alert("Enter valid Aadhar Number");
+                return false;
+            }
+        }
+    }
+
+    function AddMore1() {
+        var count = 1;
+        var data = "";
+        data += '<tr id="tr_' + count + '">';
+        data += '<td><input type="text" class="form-control" name="degree" id="degree" /></td>';
+        data += '<td><input type="text" class="form-control" name="university" id="university" /></td>';
+        data += '<td><input type="date" class="form-control" name="dfrom" id="dfrom" /></td>';
+        data += '<td><input type="date" class="form-control" name="dto" id="dto" /></td>';
+        data += '<td><input type="text" class="form-control" name="percentagegrade" id="percentagegrade" /></td>';
+        data += '<td><input type="text" class="form-control" name="specification" id="specification" /></td>';
+        data += '<td><button onclick="Remove1(' + count + ')" class="btn btn-outline-primary">X</button></td>';
+        data += '</tr>';
+
+        $("#Education1").append(data);
+        count = count + 1;
+    }
+    function Remove1(id) {
+        $("#tr_" + id).remove();
+    }
+    function AddMore2() {
+        var count = 1;
+        var data = "";
+        data += '<tr id="tr_' + count + '">';
+        data += '<td><input type="text" class="form-control" name="prvorganisiation" id="prvorganisiation" /></td>';
+        data += '<td><input type="text" class="form-control"  name="prvdesignation" id="prvdesignation" /></td>';
+        data += '<td><input type="text" class="form-control"  name="prvlocation" id="prvlocation"/></td>';
+        data += '<td><input type="text" class="form-control"  name="prvworkduration" id="prvworkduration"/></td>';
+        data += '<td><input type="text" class="form-control"  name="prvmanagerno" id="prvmanagerno"/></td>';
+        data += '<td><button onclick="Remove2(' + count + ')" class="btn btn-outline-primary">X</button></td>';
+        data += '</tr>';
+
+        $("#Education2").append(data);
+        count = count + 1;
+    }
+    function Remove2(id) {
+        $("#tr_" + id).remove();
+    }
+
+    function SameAsCrspAdd() {
+        //debugger;
+        var chk = $("#chk");
+        if (chk[0].checked == true) {
+            $("#paddl1").val($("#caddl1").val());
+            $("#paddl2").val($("#caddl2").val());
+            $("#pcity").val($("#ccity").val());
+            $("#pstate").val($("#cstate").val());
+            $("#pzip").val($("#czip").val());
+            $("#pcountry").val($("#ccountry").val());
+        }
+        else {
+            $("#paddl1").val("");
+            $("#paddl2").val("");
+            $("#pcity").val("");
+            $("#pstate").val("");
+            $("#pzip").val("");
+            $("#pcountry").val("");
+        }
+
+    }
+
+    function EnableDisableTextBox(declaration) {
+        
+        var txtf = document.getElementById("Submit");
+        txtf.disabled = declaration.checked ? false : true;
+       
+        if (!txtf.disabled) {
+            txtPassportNumber.focus();
+        }
+    }
+</script>

@@ -1,0 +1,179 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>HRMS - Oasys Tech Solutions Pvt. Ltd.</title>
+    <!-- Global stylesheets -->
+    <link href="~/global_assets/css.css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="~/global_assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/global_assets/css/bootstrap_limitless.min.css" rel="stylesheet" />
+    <link href="~/global_assets/css/components.min.css" rel="stylesheet" />
+    <link href="~/global_assets/css/layout.min.css" rel="stylesheet" />
+    <link href="~/global_assets/css/colors.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script src="~/global_assets/js/main/jquery.min.js"></script>
+    <script src="~/global_assets/js/main/bootstrap.bundle.min.js"></script>
+    <script src="~/global_assets/js/plugins/loaders/blockui.min.js"></script>
+    <script src="~/global_assets/js/plugins/ui/ripple.min.js"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    <script src="assets/js/app.js"></script>
+    <!-- /theme JS files -->
+
+    <style>
+        .form-control2 {
+            border: 1px solid #ddd !important;
+        }
+
+        .form-group-feedback-left1 .form-control-feedback {
+            left: 110px;
+        }
+
+        .form-control-feedback {
+            position: absolute;
+            top: 0;
+            color: #333;
+            padding-left: 0;
+            padding-right: 0;
+            line-height: calc(1.5385em + 1rem + 2px);
+            min-width: 1rem;
+        }
+
+        #captcha {
+            color: black;
+            font-size: 14px;
+            font-weight: 600;
+            padding-left: 8px;
+        }
+
+    </style>
+</head>
+<body style="background-image: url(global_assets/images/hrmsoasys.jpg); background-size: cover; ">
+    <!-- Main navbar -->
+    <!-- /main navbar -->
+    <!-- Page content -->
+    <div class="page-content">
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <!-- Content area -->
+            <div class="content d-flex justify-content-center align-items-center">
+                <!-- Login form -->
+                <form class="login-form" method="post" action="/Login/Login">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="icon-reading icon-2x text-slate-300 border-slate-300  p-3 mb-3 mt-1"></i>
+                                <h5 class="mb-0">Login to your account</h5>
+                                <span class="d-block text-muted">Enter your credentials below</span>
+                            </div>
+                            <div class="form-group form-group-feedback form-group-feedback-left">
+                                <input type="text" class="form-control" required id="username" name="username" placeholder="Username">
+                                <div class="form-control-feedback">
+                                    <i class="icon-user text-muted"></i>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-feedback form-group-feedback-left">
+                                <input type="password" class="form-control" required id="password" name="password" placeholder="Password">
+                                <div class="form-control-feedback">
+                                    <i class="icon-lock2 text-muted"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group form-group-feedback form-group-feedback-left1">
+                                        <input type="text" class="form-control form-control2" id="captcha" name="captcha"readonly="readonly" onfocus="this.blur()" value="@ViewBag.captcha">
+                                        <div class="form-control-feedback">
+                                            <i class="fa fa-refresh" aria-hidden="true" onclick="Refresh()"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-group-feedback form-group-feedback-left">
+                                        <input type="text" class="form-control" required id="txtcaptcha" name="txtcaptcha" placeholder="enter captcha">
+                                        <div class="form-control-feedback">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                           
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">Sign in <i class="icon-circle-right2 ml-2"></i></button>
+                            </div>
+                            <div class="text-center">
+                                <a href="login_password_recover.html.htm">Forgot password?</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- /login form -->
+            </div>
+            <!-- /content area -->
+            <!-- Footer -->
+            <div class="navbar navbar-expand-lg navbar-light">
+                <div class="text-center d-lg-none w-100">
+                    <button type="button" class="navbar-toggler dropdown-toggle" data-toggle="collapse" data-target="#navbar-footer">
+                        <i class="icon-unfold mr-2"></i>
+                        Footer
+                    </button>
+                </div>
+
+            </div>
+            <!-- /footer -->
+        </div>
+        <!-- /main content -->
+    </div>
+    <!-- /page content -->
+</body>
+</html>
+<script src="~/global_assets/js/main/jquery.min.js"></script>
+<script>
+    function Refresh() {
+        $.ajax({
+            url: "/Login/RefreshCaptcha",
+            type: 'GET',
+            data: {},
+            dataType: "json",
+            success: function (resultData) {
+                $("#captcha").val(resultData);
+            }
+        });
+    }
+    $("form").submit(function () {
+        var _txt1 = $('#captcha').val();
+        var _txt2 = $('#txtcaptcha').val();
+
+        if (_txt1 == _txt2) {
+            @*alert('Matching!');*@
+            return true;
+        }
+        else {
+            alert('Captch Not Matching!');
+            return false;
+        }
+    });
+    $('#captcha').bind("cut copy paste", function (e) {
+        e.preventDefault();
+    });
+
+    //$(document).ready(function () {
+    //    $('#captcha').on("cut copy paste", function (e) {
+    //        e.preventDefault();
+    //    });
+    //});
+
+</script>
+
+

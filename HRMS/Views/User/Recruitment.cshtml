@@ -1,0 +1,57 @@
+﻿@model HRMS.Models.Recruitment
+@{
+    ViewData["Title"] = "Manager";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Raw(TempData["msg"])
+<div class="card">
+    <div class="card-body">
+        <form action="/User/Recruitment" method="post">
+            <fieldset class="mb-3">
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Position:</label>
+                       
+                        @Html.TextBoxFor(x => x.Position, new { @class = "form-control", @required = "true", @name = "position", @id = "position" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Experience:</label>
+                        <select class="form-control"name="experience" id="experience">
+                            @if (ViewBag.Experience != null)
+                            {
+                                <option value="Select Experience">Select Experience</option>
+                                foreach (var item in ViewBag.Experience)
+                                {
+
+
+                                    <option value="@item.Id">@item.Experience</option>
+                                }
+                            }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">No. of Resources:</label>
+                        @Html.TextBoxFor(x => x.NoofResources, new { @class = "form-control", @required = "true", @name = "NoofResources", @id = "NoofResources" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Technology:</label>
+                       
+                        @Html.TextAreaFor(m => m.Technology, new { @class = "form-control", @required = "true", @name = "Remark", @id = "Remark",@rows = "3",@cols = "3" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Remark:</label>
+                        @Html.TextAreaFor(m => m.Remark, new { @class = "form-control", @required = "true", @name = "Remark", @id = "Remark", @rows = "3", @cols = "3" })
+                    </div>
+                    <div class="text-right">
+                        <br />
+                        <br />
+                        <button id="button" type="submit" class="btn btn-primary">Submit </button>
+                        <button type="reset" value="Reset" onclick="window.location.reload()" class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+

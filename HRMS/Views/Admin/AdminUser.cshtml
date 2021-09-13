@@ -1,0 +1,191 @@
+﻿@model HRMS.Models.AdminUser
+@{
+    ViewData["Title"] = "AdminUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@if (TempData["msg"] != null)
+{
+    @Html.Raw(TempData["msg"])
+}
+
+<div class="card">
+    <div class="card-body">
+        <form action="/Admin/AdminUser" method="post">
+
+            <fieldset class="mb-3">
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label class="col-form-label">FirstName:</label>
+                        @Html.HiddenFor(x => x.RegistrationId, new { @class = "form-control", @name = "ID", @id = "ID" })
+                        @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @required = "true", @name = "firstname", @id = "firstname" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">LastName:</label>
+                        @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @required = "true", @name = "lastname", @id = "lastname" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Mobile No.:</label>
+                        @Html.TextBoxFor(x => x.MobileNo, new { @class = "form-control", @required = "true", @pattern = @"^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$", @name = "mobileno", @id = "mobileno" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Email ID:</label>
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = "true", @name = "email", @id = "email" } })
+                        @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Dob:</label>
+                     
+                        @Html.TextBoxFor(x => x.Dob, new { @type = "date", @class = "form-control", @required = "true", @name = "dob", @id = "dob" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Department Name:</label>
+                        <select class="form-control" name="DepartmentId" id="DepartmentId">
+
+                            @if (ViewBag.Department != null)
+                            {
+                                <option value="select department">select department</option>
+                                foreach (var item in ViewBag.Department)
+                                {
+
+
+                                    <option value="@item.DepartmentId">@item.DepartmentName</option>
+                                }
+                            }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Designation:</label>
+                        <select class="form-control" name="DesignationId" id="DesignationId">
+                            @if (ViewBag.Designation1 != null)
+                            {
+                                <option value="select designation">select designation</option>
+                                foreach (var item in ViewBag.Designation1)
+                                {
+                                    <option value="@item.DesignationId">@item.DesignationName</option>
+                                }
+                            }
+                            }
+
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">Role:</label>
+
+                        <select class="form-control" name="RoleId" id="RoleId">
+                            @if (ViewBag.Role != null)
+                            {
+                                <option value="select Role">select Role</option>
+                                foreach (var item in ViewBag.Role)
+                                {
+                                    <option value="@item.RoleId">@item.RoleName</option>
+                                }
+                            }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4 mtop">
+                        <div class="btn-group">
+                            <button type="submit" id="Submit" class="btn btn-primary mr">Submit</button>
+                            <button type="reset" onclick="window.location.reload()" class="btn btn-danger mr" value="Reset">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <table id="default-datatable" class="table table-bordered table-responsive" role="grid" aria-describedby="default-datatable_info">
+            <thead>
+                <tr>
+                    <th>SI.NO</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email Id</th>
+                    <th>Mobile Number</th>
+                    <th>DOB</th>
+                    @*<th>Department</th>
+                    <th>Designation</th>
+                    <th>RoleName</th>*@
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int count = 0;}
+
+                @foreach (var iteam in ViewBag.Adminuser)
+                {
+                    count = count + 1;
+                    <tr role="row" class="even">
+                        <td>@count</td>
+                        <td>@iteam.FirstName</td>
+                        <td>@iteam.LastName</td>
+                        <td>@iteam.Email</td>
+                        <td>@iteam.MobileNo</td>
+                        <td>@iteam.Dob</td>
+                        @*<td>@iteam.DepartmentName</td>
+                        <td>@iteam.Designation</td>
+                        <td>@iteam.RoleName</td>*@
+                        <td class="text-center">
+                            <div class="list-icons">
+                                <div class="dropdown">
+                                    <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                        <i class="icon-menu9"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-right">
+
+                                        <a href="#" onclick="Edit(@iteam.RegistrationId)" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>
+                                        <a href="~/Admin/Delete/@iteam.RegistrationId" onclick="return confirm('Are you sure want to delete this record?')" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+   
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script>
+   
+    function Edit(ID) {
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: "/Admin/EditUser",
+            data: { ID: ID },
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                $("#Submit").text("Update");
+                $("#ID").val(data.registrationId);
+                $("#firstname").val(data.firstName);
+                $("#lastname").val(data.lastName);
+                $("#mobileno").val(data.mobileNo);
+                $("#email").val(data.email);
+                $("#dob").val(data.dob);
+                $("#departmentname").val(data.departmentName);
+                $("#designation").val(data.designation);
+                $("#rolename").val(data.roleName);
+            }
+        });
+    }
+
+     
+
+</script>

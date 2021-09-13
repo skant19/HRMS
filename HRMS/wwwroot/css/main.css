@@ -1,0 +1,23 @@
+﻿.mtop{
+    margin-top:37px;
+}
+.col-form-label {
+    font-weight: 600;
+}
+
+.mr {
+    margin: 0px 8px !important;
+}
+
+table.dataTable thead > tr > th {
+    color: #fff;
+    background-color: #3e5af7;
+}
+
+.table th {
+    padding: 7px !important;
+}
+
+.spann {
+    color: #e61000;
+}
