@@ -4,14 +4,30 @@
     ViewData["Title"] = "JoiningForm";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-@if (TempData["msg"] != null)
+@*@if (TempData["msg"] != null)
 {
     @Html.Raw(TempData["msg"])
+}*@
+@if (TempData["msg"] != null)
+{
+    <div class="alert alert-success">
+        <strong>@TempData["msg"]</strong>
+    </div>
 }
 <style>
     .required:after {
         content: " *";
         color: red;
+    }
+
+    .required1:before {
+        content: " *";
+        color: red;
+    }
+
+    label.required1 {
+        position: relative;
+        right: 12px;
     }
 </style>
 <form action="/EmpDetails/EmpJoining" method="post">
@@ -186,11 +202,11 @@
                     </div>
                     <div class="col-lg-4">
                         <label class="col-form-label required">Account Number:</label>
-                        @Html.EditorFor(x => x.EmpBankDtl.AccountNo, new { htmlAttributes = new { @class = "form-control", @Type = "password", @required = "true", @name = "accountno", @id = "accountno" } })
+                        @Html.TextBoxFor(x => x.EmpBankDtl.AccountNo, new { @class = "form-control", @required = "true", @name = "accountno", @id = "accountno" })
                     </div>
                     <div class="col-lg-4">
                         <label class="col-form-label required">Confirm Account Number:</label>
-                        @Html.TextBoxFor(x => x.EmpBankDtl.ConfAccountNo, new { @class = "form-control", @required = "true", @name = "confaccountno", @id = "confaccountno" })
+                        @Html.EditorFor(x => x.EmpBankDtl.ConfAccountNo, new { htmlAttributes = new { @class = "form-control", @Type = "password", @required = "true", @name = "confaccountno", @id = "confaccountno" } })
                     </div>
                     <div class="col-lg-4">
                         <label class="col-form-label required">IFSC Code:</label>
@@ -212,25 +228,24 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <td>Degree</td>
-                                <td>University/Institute</td>
-                                <td>From</td>
-                                <td>To</td>
-                                <td>Percentage Grade</td>
-                                <td>Specification</td>
+                                <td class="required">Degree</td>
+                                <td class="required">University/Institute</td>
+                                <td class="required">From</td>
+                                <td class="required">To</td>
+                                <td class="required">Percentage Grade</td>
+                                <td class="required">Specification</td>
                                 <td>Action</td>
                             </tr>
                         </thead>
                         <tbody id="Education1">
                             <tr>
-                                <td><input type="text" class="form-control" name="degree" id="degree" /></td>
-                                <td><input type="text" class="form-control" name="university" id="university" /></td>
-                                <td><input type="date" class="form-control" name="dfrom" id="dfrom" /></td>
-                                <td><input type="date" class="form-control" name="dto" id="dto" /></td>
-                                <td><input type="text" class="form-control" name="percentagegrade" id="percentagegrade" /></td>
-                                <td><input type="text" class="form-control" name="specification" id="specification" /></td>
+                                <td><input type="text" required class="form-control" name="degree" id="degree" /></td>
+                                <td><input type="text" required class="form-control" name="university" id="university" /></td>
+                                <td><input type="date" required class="form-control" name="dfrom" id="dfrom" /></td>
+                                <td><input type="date" required class="form-control" name="dto" id="dto" /></td>
+                                <td><input type="text" required class="form-control" name="percentagegrade" id="percentagegrade" /></td>
+                                <td><input type="text" required class="form-control" name="specification" id="specification" /></td>
                                 <td><button type="button" onclick="AddMore1()" class="btn btn-outline-primary">+</button></td>
-
                             </tr>
                         </tbody>
                     </table>
@@ -277,7 +292,7 @@
                     <div class="col-lg-12">
                         <div class="form-check">
                             <input type="checkbox" name="declaration" id="declaration" class="form-check-input" onclick="EnableDisableTextBox(this)">
-                            <label class="required">
+                            <label class="required1">
                                 <b style="font-weight:600;">
                                     I hereby declare that the above statements made in my application form are true, complete and correct the best of my knowledge and belief. In the event of any information being found false or incorrect at any stage, my service are liable to be terminated without notice.
                                 </b>
@@ -288,10 +303,10 @@
 
                 <div class="row">
                     <div class="col-md-12 mtop">
-                            <div class="btn-group" style="float:right;">
-                                <button type="submit" id="Submit" disabled class="btn btn-primary mr">Submit</button>
-                                <button type="reset" onclick="window.location.reload()" class="btn btn-danger mr " value="Reset">Cancel</button>
-                            </div>
+                        <div class="btn-group" style="float:right;">
+                            <button type="submit" id="Submit" disabled class="btn btn-primary mr">Submit</button>
+                            <button type="reset" onclick="window.location.reload()" class="btn btn-danger mr " value="Reset">Cancel</button>
+                        </div>
                     </div>
                 </div>
             </fieldset>
@@ -376,10 +391,10 @@
     }
 
     function EnableDisableTextBox(declaration) {
-        
+
         var txtf = document.getElementById("Submit");
         txtf.disabled = declaration.checked ? false : true;
-       
+
         if (!txtf.disabled) {
             txtPassportNumber.focus();
         }

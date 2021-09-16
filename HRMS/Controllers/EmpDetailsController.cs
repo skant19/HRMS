@@ -41,38 +41,46 @@ namespace HRMS.Controllers
         {
             List<EmpEdu_ProfDetails> EmpEdu_ProfDetails = new
                 List<EmpEdu_ProfDetails>();
-            if(degree.Length>0)
+            EmpEdu_ProfDetails obj1;
+            obj1 = new EmpEdu_ProfDetails();
+            if (degree.Length > 0)
             {
-                for (int i= 0;i<degree.Length; i++)
+                for (int i = 0; i < degree.Length; i++)
                 {
-                    EmpEdu_ProfDetails obj1;
-                    obj1 = new EmpEdu_ProfDetails();
                     obj1.Degree = degree[i];
                     obj1.University = university[i];
                     obj1.DFrom = Convert.ToDateTime(dfrom[i]);
                     obj1.DTo = Convert.ToDateTime(dto[i]);
                     obj1.PercentageGrade = percentagegrade[i];
                     obj1.Specification = specification[i];
-                    obj1.PrvOrganizationName = prvorganisiation[i];
-                    obj1.PrvDesignation = prvdesignation[i];
-                    obj1.PrvJobLocation = prvlocation[i];
-                    obj1.PrvWorkDuration = prvworkduration[i];
-                    obj1.PrvManagerNo = prvmanagerno[i];
-                    EmpEdu_ProfDetails.Add(obj1);
                 }
+                if (prvorganisiation.Length > 0)
+                {
+                    for (int i = 0; i < prvorganisiation.Length; i++)
+                    {
+
+                        obj1.PrvOrganizationName = prvorganisiation[i];
+                        obj1.PrvDesignation = prvdesignation[i];
+                        obj1.PrvJobLocation = prvlocation[i];
+                        obj1.PrvWorkDuration = prvworkduration[i];
+                        obj1.PrvManagerNo = prvmanagerno[i];
+                    }
+                }
+                EmpEdu_ProfDetails.Add(obj1);
             }
+
             obj.EmpEduProfDtl = EmpEdu_ProfDetails;
             int a = applicationrepository.SaveEmployee(obj);
             if (a > 1)
             {
-                TempData["msg"] = "<script>alert('Details Submited')</script>";
-                return RedirectToAction("EmpJoining", "EmpDetails");
+                TempData["msg"] = "Details Submited Successfully";
+                return RedirectToAction("Login", "Login");
 
             }
             else
             {
                 TempData["Message"] = "AdminUser Updated Successfully";
-                return RedirectToAction("EmpJoining", "EmpDetails");
+                return RedirectToAction("Login", "Login");
             }
         }
     }
