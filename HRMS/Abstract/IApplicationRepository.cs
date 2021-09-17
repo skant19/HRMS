@@ -10,36 +10,39 @@ namespace HRMS.Abstract
     public interface IApplicationRepository
     {
         UserCredential CheckLogin(string username, string password);
-        Role GetRole(int? RoleId);
+        Department GetDepartment(int id);
+        Designation GetDesignation(int id);
+        Role GetRole(int id);
         AdminUser GetAdminUser(int? RegId);
+        Role GetRole(int? RoleId);
+        Sp_Recruitment Sp_Recruitment_Getbyid(int? PosiId);
+
+        string EncodeBase64(string value);
+        string DecodeBase64(string value);
+        string RecruitmentId();
+        
         int SaveAdminuser(AdminUser adminUser);
+        int SaveDepartment(Department departmentdetails);
+        int SaveDesignation(Designation designationdetails);
+        int SaveRole(Role roledetails);
+        int DeleteUser(int ID);
+        int DeleteDepartment(int id);
+        int DeleteDesignation(int id);
+        int DeleteRole(int id);
+        int SaveRecruitment(Recruitment recruitment);
+        int SaveEmployee(EmpJoining EmpJng);
+
         List<Department> department();
         List<AdminUser> AdminUsers();
         List<Designation> designation();
         List<Role> role();
-        int DeleteUser(int ID);
-        int SaveDepartment(Department departmentdetails);
-        int SaveDesignation(Designation designationdetails);
-        int SaveRole(Role roledetails);
-        Department GetDepartment(int id);
-        int DeleteDepartment(int id);
-        Designation GetDesignation(int id);
-        int DeleteDesignation(int id);
-        Role GetRole(int id);
-        int DeleteRole(int id);
-        string EncodeBase64(string value);
-        string DecodeBase64(string value);
-        int SaveRecruitment(Recruitment recruitment);
-        List<ExperienceTable> Experence_Table();
-        List<Sp_Recruitment> Sp_Recruitment();
-        string RecruitmentId();
-        Sp_Recruitment Sp_Recruitment_Getbyid(int? PosiId);
-        int SaveEmployee(EmpJoining EmpJng);
         List<EmpDetails> EmpDetailss();
         List<EmpBankDetails> EmpBankDetailss();
         List<EmpEdu_ProfDetails> EmpEdu_ProfDetailss();
         List<SelectListItem> GenderList();
         List<SelectListItem> MaritalList();
         List<SelectListItem> BloodGroupList();
+        List<ExperienceTable> Experence_Table();
+        List<Sp_Recruitment> Sp_Recruitment();
     }
 }

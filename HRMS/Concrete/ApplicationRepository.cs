@@ -402,6 +402,7 @@ namespace HRMS.Concrete
             });
             return items;
         }
+        
         public List<SelectListItem> BloodGroupList()
         {
             List<SelectListItem> items = new List<SelectListItem>();
