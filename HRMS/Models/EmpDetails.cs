@@ -24,10 +24,10 @@ namespace HRMS.Models
         public string MobileNo { get; set; }
         public string Email { get; set; }
         public string AltEmail { get; set; }
-        public string? AadhaarNo { get; set; }
-        public string? PanCardNo { get; set; }
-        public string? EmgContactName { get; set; }
-        public string? RelationWithEmp { get; set; }
+        public string AadhaarNo { get; set; }
+        public string PanCardNo { get; set; }
+        public string EmgContactName { get; set; }
+        public string RelationWithEmp { get; set; }
         public string EmgContactNo { get; set; }
         public string C_AddL1 { get; set; }
         public string C_AddL2 { get; set; }

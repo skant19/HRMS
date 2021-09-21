@@ -10,25 +10,26 @@ using System.Threading.Tasks;
 namespace HRMS.Controllers
 {
     public class AdminController : Controller
-
     {
-
         public readonly IApplicationRepository applicationrepository;
+        
         public AdminController(IApplicationRepository appRepository)
         {
             applicationrepository = appRepository;
         }
+        
         public IActionResult Index()
         {
             return View();
         }
+        
         [HttpGet]
         public IActionResult Department()
         {
             ViewBag.data = applicationrepository.department();
             return View();
-
         }
+        
         [HttpPost]
         public IActionResult Department(Department departmentdetails)
         {
@@ -48,15 +49,13 @@ namespace HRMS.Controllers
         [HttpPost]
         public IActionResult EditDepartment(int id)
         {
-            var data = applicationrepository.GetDepartment(id)
-;
+            var data = applicationrepository.GetDepartment(id);
             return Json(data);
         }
 
         public IActionResult DeleteDepartment(int id)
         {
-            var data = applicationrepository.DeleteDepartment(id)
-;
+            var data = applicationrepository.DeleteDepartment(id);
             TempData["DeptDeleteMessage"] = "Data Deleted Successfully";
             return RedirectToAction("Department", "Admin");
         }
@@ -87,8 +86,7 @@ namespace HRMS.Controllers
         [HttpPost]
         public IActionResult EditDesignation(int id)
         {
-            var data1 = applicationrepository.GetDesignation(id)
-;
+            var data1 = applicationrepository.GetDesignation(id);
             return Json(data1);
         }
 
@@ -125,8 +123,7 @@ namespace HRMS.Controllers
         [HttpPost]
         public IActionResult EditRole(int id)
         {
-            var data2 = applicationrepository.GetRole(id)
-;
+            var data2 = applicationrepository.GetRole(id);
             return Json(data2);
         }
 
@@ -154,14 +151,11 @@ namespace HRMS.Controllers
             if (a > 1)
             {
                 TempData["msg"] = "<script>alert('Admin User Created')</script>";
-                //return RedirectToAction("AdminUser", "Admin");
-                // TempData["Message"] = "AdminUser Created Successfully";
                 return RedirectToAction("AdminUser", "Admin");
 
             }
             else
             {
-                //return RedirectToAction("AdminUser", "Admin");
                 TempData["Message"] = "AdminUser Updated Successfully";
                 return RedirectToAction("AdminUser", "Admin");
             }
@@ -180,8 +174,5 @@ namespace HRMS.Controllers
             TempData["Delete"] = "<script>alert('Data Edited')</script>";
             return Json(data);
         }
-        
-
-
     }
 }

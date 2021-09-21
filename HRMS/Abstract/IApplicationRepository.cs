@@ -38,7 +38,8 @@ namespace HRMS.Abstract
         List<Role> role();
         List<EmpDetails> EmpDetailss();
         List<EmpBankDetails> EmpBankDetailss();
-        List<EmpEdu_ProfDetails> EmpEdu_ProfDetailss();
+        List<EmpEduDetails> EmpEduDetailss();
+        List<EmpProfDetails> EmpProfDetailss();
         List<SelectListItem> GenderList();
         List<SelectListItem> MaritalList();
         List<SelectListItem> BloodGroupList();

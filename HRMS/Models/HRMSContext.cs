@@ -12,12 +12,10 @@ namespace HRMS.Models
         {
 
         }
-
         public HRMSContext(DbContextOptions<HRMSContext> options) : base(options)
         {
 
         }
-
         public virtual DbSet<AdminUser> AdminUsers { get; set; }
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
@@ -33,7 +31,8 @@ namespace HRMS.Models
         public virtual DbSet<JobRequest> JobRequests { get; set; }
         public virtual DbSet<EmpDetails> EmpDetailss { get; set; }
         public virtual DbSet<EmpBankDetails> EmpBankDetailss { get; set; }
-        public virtual DbSet<EmpEdu_ProfDetails> EmpEdu_ProfDetailss { get; set; }
+        public virtual DbSet<EmpEduDetails> EmpEduDetailss { get; set; }
+        public virtual DbSet<EmpProfDetails> EmpProfDetailss { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -508,11 +507,11 @@ namespace HRMS.Models
                 entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<EmpEdu_ProfDetails>(entity =>
+            modelBuilder.Entity<EmpEduDetails>(entity =>
             {
-                entity.HasKey(e => e.EduPrfuId);
+                entity.HasKey(e => e.EduId);
 
-                entity.ToTable("EmpEdu_ProfDetails");
+                entity.ToTable("EmpEduDetails");
 
                 entity.Property(e => e.Degree)
                     .HasMaxLength(50)
@@ -527,26 +526,6 @@ namespace HRMS.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Specification)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PrvOrganizationName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PrvDesignation)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PrvJobLocation)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PrvWorkDuration)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PrvManagerNo)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -565,11 +544,51 @@ namespace HRMS.Models
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+
+                
+            });
+            
+            modelBuilder.Entity<EmpProfDetails>(entity =>
+            {
+                entity.HasKey(e => e.ProfId);
+
+                entity.ToTable("EmpProfDetails");
+
+                entity.Property(e => e.PrvOrganizationName)
+               .HasMaxLength(50)
+               .IsUnicode(false);
+
+                entity.Property(e => e.PrvDesignation)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PrvJobLocation)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PrvWorkDuration)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PrvManagerNo)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedBy)
+                               .HasMaxLength(50)
+                               .IsUnicode(false);
+
+                entity.Property(e => e.ModifiedBy)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             });
             
             OnModelCreatingPartial(modelBuilder);
         }
-
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

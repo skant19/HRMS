@@ -4,16 +4,9 @@
     ViewData["Title"] = "JoiningForm";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-@*@if (TempData["msg"] != null)
-{
-    @Html.Raw(TempData["msg"])
-}*@
-@if (TempData["msg"] != null)
-{
-    <div class="alert alert-success">
-        <strong>@TempData["msg"]</strong>
-    </div>
-}
+
+
+
 <style>
     .required:after {
         content: " *";
@@ -30,6 +23,10 @@
         right: 12px;
     }
 </style>
+@if (TempData["msg"] != null)
+{
+    @Html.Raw(TempData["msggggg"])
+}
 <form action="/EmpDetails/EmpJoining" method="post">
     <div class="card">
         <div class="card-body">
@@ -313,7 +310,6 @@
         </div>
     </div>
 </form>
-
 
 <script>
     function AadharValidate() {

@@ -13,11 +13,12 @@ namespace HRMS.Models
     {
         public EmpDetails EmpDtl { get; set; }
         public EmpBankDetails EmpBankDtl { get; set; }
-        public EmpEdu_ProfDetails EmpEduPrfDtl { get; set; }
+        public EmpEduDetails EmpEduDtl { get; set; }
+        public EmpProfDetails EmpProfDtl { get; set; }
         public List<SelectListItem> GenderList { get; set; }
         public List<SelectListItem> MaritalList { get; set; }
         public List<SelectListItem> BloodGroupList { get; set; }
-        public List<EmpEdu_ProfDetails> EmpEduProfDtl { get; set; }
-
+        //public List<EmpEduDetails> EmpEduDtls { get; set; }
+        //public List<EmpProfDetails> EmpProfDtls { get; set; }
     }
 }

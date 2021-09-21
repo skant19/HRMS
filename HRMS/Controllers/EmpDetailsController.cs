@@ -16,33 +16,38 @@ namespace HRMS.Controllers
         {
             applicationrepository = appRepository;
         }
+        
         public IActionResult Index()
         {
             return View();
         }
+        
         public IActionResult JoiningForm()
         {
             return View();
         }
+        
         [HttpGet]
         public IActionResult EmpJoining()
         {
             EmpJoining joining = new EmpJoining();
             ViewBag.EmpJoining = applicationrepository.EmpDetailss().ToList();
             ViewBag.EmpJoin = applicationrepository.EmpBankDetailss().ToList();
-            ViewBag.EmpJoinee = applicationrepository.EmpEdu_ProfDetailss().ToList();
+            ViewBag.EmpJoinee = applicationrepository.EmpEduDetailss().ToList();
+            ViewBag.EmpJoinee = applicationrepository.EmpProfDetailss().ToList();
             joining.GenderList = applicationrepository.GenderList();
             joining.MaritalList = applicationrepository.MaritalList();
             joining.BloodGroupList = applicationrepository.BloodGroupList();
             return View(joining);
         }
+
         [HttpPost]
         public IActionResult EmpJoining(EmpJoining obj, string Gender, string[] degree, string[] university, string[] dfrom, string[] dto, string[] percentagegrade, string[] specification, string[] prvorganisiation, string[] prvdesignation, string[] prvlocation, string[] prvworkduration, string[] prvmanagerno)
         {
-            List<EmpEdu_ProfDetails> EmpEdu_ProfDetails = new
-                List<EmpEdu_ProfDetails>();
-            EmpEdu_ProfDetails obj1;
-            obj1 = new EmpEdu_ProfDetails();
+            List<EmpEduDetails> EmpEduDetails = new
+                List<EmpEduDetails>();
+            EmpEduDetails obj1;
+            obj1 = new EmpEduDetails();
             if (degree.Length > 0)
             {
                 for (int i = 0; i < degree.Length; i++)
@@ -54,32 +59,37 @@ namespace HRMS.Controllers
                     obj1.PercentageGrade = percentagegrade[i];
                     obj1.Specification = specification[i];
                 }
-                if (prvorganisiation.Length > 0)
-                {
-                    for (int i = 0; i < prvorganisiation.Length; i++)
-                    {
-
-                        obj1.PrvOrganizationName = prvorganisiation[i];
-                        obj1.PrvDesignation = prvdesignation[i];
-                        obj1.PrvJobLocation = prvlocation[i];
-                        obj1.PrvWorkDuration = prvworkduration[i];
-                        obj1.PrvManagerNo = prvmanagerno[i];
-                    }
-                }
-                EmpEdu_ProfDetails.Add(obj1);
+                EmpEduDetails.Add(obj1);
             }
 
-            obj.EmpEduProfDtl = EmpEdu_ProfDetails;
+            List<EmpProfDetails> EmpProfDetails = new
+                List<EmpProfDetails>();
+            EmpProfDetails obj2;
+            obj2 = new EmpProfDetails();
+            if (prvorganisiation.Length > 0)
+            {
+                for (int i = 0; i < prvorganisiation.Length; i++)
+                {
+                    obj2.PrvOrganizationName = prvorganisiation[i];
+                    obj2.PrvDesignation = prvdesignation[i];
+                    obj2.PrvJobLocation = prvlocation[i];
+                    obj2.PrvWorkDuration = prvworkduration[i];
+                    obj2.PrvManagerNo = prvmanagerno[i];
+                }
+                EmpProfDetails.Add(obj2);
+            }
+
+            obj.EmpEduDtl = obj1;
+            obj.EmpProfDtl = obj2;
             int a = applicationrepository.SaveEmployee(obj);
             if (a > 1)
             {
-                TempData["msg"] = "Details Submited Successfully";
+                TempData["msggggg"] = "<script>alert('Details Submited Successfully')</script>";
                 return RedirectToAction("Login", "Login");
-
             }
             else
             {
-                TempData["Message"] = "AdminUser Updated Successfully";
+                TempData["msggggg"] = "AdminUser Updated Successfully";
                 return RedirectToAction("Login", "Login");
             }
         }

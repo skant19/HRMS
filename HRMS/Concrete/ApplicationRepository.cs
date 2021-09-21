@@ -28,13 +28,6 @@ namespace HRMS.Concrete
             return data;
         }
         
-        public AdminUser GetAdminUser(int? RegId)
-        {
-            var data = con.AdminUsers.Where(x => x.RegistrationId == RegId).FirstOrDefault();
-
-            return data;
-        }
-        
         public int SaveAdminuser(AdminUser adminUser)
         {
             if (adminUser.RegistrationId != 0)
@@ -48,8 +41,6 @@ namespace HRMS.Concrete
                 data.Dob = adminUser.Dob;
                 data.MobileNo = adminUser.MobileNo;
                 data.RoleId = adminUser.RoleId;
-                
-
                 con.SaveChanges();
                 return 1;
             }
@@ -65,26 +56,19 @@ namespace HRMS.Concrete
                 obj.Dob = adminUser.Dob;
                 obj.MobileNo = adminUser.MobileNo;
                 obj.RoleId = adminUser.RoleId;
-                
                 con.AdminUsers.Add(obj);
                 con.SaveChanges();
 
-
                 UserCredential UC = new UserCredential();
-
                 string password = CreatePassword(6);
                 string encpassword = EncodeBase64(password);
-
                 UC.UserName = adminUser.Email;
                 UC.Password = encpassword;
                 UC.RegistrationId = obj.RegistrationId;
-
                 UC.IsActive = true;
                 UC.IsDeleted = false;
-
                 con.UserCredentials.Add(UC);
                 con.SaveChanges();
-
 
                 string sub = "Timesheet credential detail";
                 var body = new StringBuilder();
@@ -96,14 +80,10 @@ namespace HRMS.Concrete
                 body.AppendLine(@"Username: " + UC.UserName);
                 body.AppendLine("<br/>");
                 body.AppendLine(@"Password: " + password);
-
                 string mailbody = body.ToString();
                 SendMail(obj.Email, sub, body.ToString());
-
                 return 2;
-
             }
-
         }
         
         public string CreatePassword(int length)
@@ -134,7 +114,6 @@ namespace HRMS.Concrete
             smtp.Credentials = new System.Net.NetworkCredential("cimsdev2020@gmail.com", "India@12345"); // Enter seders User name and password       
             smtp.EnableSsl = true;
             smtp.Send(mail);
-
             return true;
         }
         
@@ -150,12 +129,54 @@ namespace HRMS.Concrete
             return Encoding.UTF8.GetString(valueBytes);
         }
         
-        public List<AdminUser> AdminUsers()
+        public string RecruitmentId()
         {
-            var data = con.AdminUsers.ToList();
+            var data = con.JobRequests.ToList().Count;
+            string RecruitmentId = "";
+            if (data == 0)
+            {
+                int id = 1;
+                RecruitmentId = "OASYS" + "-" + id;
+            }
+            else
+            {
+                int id = data + 1;
+                RecruitmentId = "OASYS" + "-" + id;
+            }
+            return RecruitmentId;
+        }
+
+        public AdminUser GetAdminUser(int? RegId)
+        {
+            var data = con.AdminUsers.Where(x => x.RegistrationId == RegId).FirstOrDefault();
             return data;
         }
-        
+
+        public Department GetDepartment(int id)
+        {
+            var data = con.Departments.Where(x => x.DepartmentId == id).FirstOrDefault();
+            return data;
+        }
+
+        public Designation GetDesignation(int id)
+        {
+            var data1 = con.Designations.Where(x => x.DesignationId == id).FirstOrDefault();
+            return data1;
+        }
+
+        public Role GetRole(int id)
+        {
+            var data2 = con.Roles.Where(x => x.RoleId == id).FirstOrDefault();
+            return data2;
+        }
+
+        public Sp_Recruitment Sp_Recruitment_Getbyid(int? PosiId)
+        {
+            var data = con.Sp_Recruitments.Where(x => x.PositionId == PosiId).FirstOrDefault();
+            return data;
+        }
+
+
         public int DeleteUser(int ID)
         {
             var data = con.AdminUsers.Where(x => x.RegistrationId == ID).FirstOrDefault();
@@ -164,12 +185,6 @@ namespace HRMS.Concrete
             return 1;
         }
 
-        public List<Department> department()
-        {
-            var data = con.Departments.ToList();
-            return data;
-        }
-        
         public int SaveDepartment(Department obj)
         {
             if (obj.DepartmentId != 0)
@@ -191,12 +206,6 @@ namespace HRMS.Concrete
                 return 2;
             }
         }
-        
-        public Department GetDepartment(int id)
-        {
-            var data = con.Departments.Where(x => x.DepartmentId == id).FirstOrDefault();
-            return data;
-        }
 
         public int DeleteDepartment(int id)
         {
@@ -212,10 +221,7 @@ namespace HRMS.Concrete
             {
                 var data = con.Designations.Where(x => x.DesignationId == obj.DesignationId).FirstOrDefault();
                 data.DesignationName = obj.DesignationName;
-
-
                 con.SaveChanges();
-
                 return 1;
             }
             else
@@ -230,19 +236,7 @@ namespace HRMS.Concrete
                 return 2;
             }
         }
-
-        public List<Designation> designation()
-        {
-            var data2 = con.Designations.ToList();
-            return data2;
-        }
         
-        public Designation GetDesignation(int id)
-        {
-            var data1 = con.Designations.Where(x => x.DesignationId == id).FirstOrDefault();
-            return data1;
-        }
-
         public int DeleteDesignation(int id)
         {
             var data1 = con.Designations.Where(x => x.DesignationId == id).FirstOrDefault();
@@ -272,19 +266,7 @@ namespace HRMS.Concrete
                 return 2;
             }
         }
-
-        public List<Role> role()
-        {
-            var data = con.Roles.ToList();
-            return data;
-        }
-       
-        public Role GetRole(int id)
-        {
-            var data2 = con.Roles.Where(x => x.RoleId == id).FirstOrDefault();
-            return data2;
-        }
-
+        
         public int DeleteRole(int id)
         {
             var data2 = con.Roles.Where(x => x.RoleId == id).FirstOrDefault();
@@ -306,6 +288,95 @@ namespace HRMS.Concrete
             return 1;
         }
 
+        public int SaveEmployee(EmpJoining EmpJng)
+        {
+            EmpDetails Obj = new EmpDetails();
+            Obj.FirstName = EmpJng.EmpDtl.FirstName;
+            Obj.LastName = EmpJng.EmpDtl.LastName;
+            Obj.Doj = EmpJng.EmpDtl.Doj;
+            Obj.Father_SpouseName = EmpJng.EmpDtl.Father_SpouseName;
+            Obj.DesignationName = EmpJng.EmpDtl.DesignationName;
+            Obj.Dob = EmpJng.EmpDtl.Dob;
+            Obj.Gender = EmpJng.EmpDtl.Gender;
+            Obj.MaritialStatus = EmpJng.EmpDtl.MaritialStatus;
+            Obj.BloodGroup = EmpJng.EmpDtl.BloodGroup;
+            Obj.TelephoneNo = EmpJng.EmpDtl.TelephoneNo;
+            Obj.MobileNo = EmpJng.EmpDtl.MobileNo;
+            Obj.Email = EmpJng.EmpDtl.Email;
+            Obj.AltEmail = EmpJng.EmpDtl.AltEmail;
+            Obj.AadhaarNo = EmpJng.EmpDtl.AadhaarNo;
+            Obj.PanCardNo = EmpJng.EmpDtl.PanCardNo;
+            Obj.EmgContactName = EmpJng.EmpDtl.EmgContactName;
+            Obj.RelationWithEmp = EmpJng.EmpDtl.RelationWithEmp;
+            Obj.EmgContactNo = EmpJng.EmpDtl.EmgContactNo;
+            Obj.C_AddL1 = EmpJng.EmpDtl.C_AddL1;
+            Obj.C_AddL2 = EmpJng.EmpDtl.C_AddL2;
+            Obj.C_City = EmpJng.EmpDtl.C_City;
+            Obj.C_State = EmpJng.EmpDtl.C_State;
+            Obj.C_Zip = EmpJng.EmpDtl.C_Zip;
+            Obj.C_Country = EmpJng.EmpDtl.C_Country;
+            Obj.P_AddL1 = EmpJng.EmpDtl.P_AddL1;
+            Obj.P_AddL2 = EmpJng.EmpDtl.P_AddL2;
+            Obj.P_City = EmpJng.EmpDtl.P_City;
+            Obj.P_State = EmpJng.EmpDtl.P_State;
+            Obj.P_Zip = EmpJng.EmpDtl.P_Zip;
+            Obj.P_Country = EmpJng.EmpDtl.P_Country;
+            con.EmpDetailss.Add(Obj);
+            con.SaveChanges();
+
+            EmpBankDetails Obj1 = new EmpBankDetails();
+            Obj1.BankName = EmpJng.EmpBankDtl.BankName;
+            Obj1.AccountNo = EmpJng.EmpBankDtl.AccountNo;
+            Obj1.ConfAccountNo = EmpJng.EmpBankDtl.ConfAccountNo;
+            Obj1.IfscCode = EmpJng.EmpBankDtl.IfscCode;
+            Obj1.UanNo = EmpJng.EmpBankDtl.UanNo;
+            con.EmpBankDetailss.Add(Obj1);
+            con.SaveChanges();
+
+            EmpEduDetails Obj2 = new EmpEduDetails();
+            Obj2.Degree = EmpJng.EmpEduDtl.Degree;
+            Obj2.University = EmpJng.EmpEduDtl.University;
+            Obj2.DFrom = EmpJng.EmpEduDtl.DFrom;
+            Obj2.DTo = EmpJng.EmpEduDtl.DTo;
+            Obj2.PercentageGrade = EmpJng.EmpEduDtl.PercentageGrade;
+            Obj2.Specification = EmpJng.EmpEduDtl.Specification;
+            con.EmpEduDetailss.Add(Obj2);
+            con.SaveChanges();
+
+            EmpProfDetails Obj3 = new EmpProfDetails();
+            Obj3.PrvOrganizationName = EmpJng.EmpProfDtl.PrvOrganizationName;
+            Obj3.PrvDesignation = EmpJng.EmpProfDtl.PrvDesignation;
+            Obj3.PrvJobLocation = EmpJng.EmpProfDtl.PrvJobLocation;
+            Obj3.PrvWorkDuration = EmpJng.EmpProfDtl.PrvWorkDuration;
+            Obj3.PrvManagerNo = EmpJng.EmpProfDtl.PrvManagerNo;
+            con.EmpProfDetailss.Add(Obj3);
+            con.SaveChanges();
+            return 1;
+        }
+        public List<AdminUser> AdminUsers()
+        {
+            var data = con.AdminUsers.ToList();
+            return data;
+        }
+
+        public List<Department> department()
+        {
+            var data = con.Departments.ToList();
+            return data;
+        }
+
+        public List<Designation> designation()
+        {
+            var data2 = con.Designations.ToList();
+            return data2;
+        }
+        
+        public List<Role> role()
+        {
+            var data = con.Roles.ToList();
+            return data;
+        }
+
         public List<ExperienceTable> Experence_Table()
         {
             var data = con.ExperienceTables.ToList();
@@ -324,19 +395,22 @@ namespace HRMS.Concrete
             return data;
         }
 
-        public List<EmpEdu_ProfDetails> EmpEdu_ProfDetailss()
+        public List<EmpEduDetails> EmpEduDetailss()
         {
-            var data = con.EmpEdu_ProfDetailss.ToList();
+            var data = con.EmpEduDetailss.ToList();
             return data;
         }
-       
+
+        public List<EmpProfDetails> EmpProfDetailss()
+        {
+            var data = con.EmpProfDetailss.ToList();
+            return data;
+        }
+
         public List<Sp_Recruitment> Sp_Recruitment()
         {
-
             var students = con.Sp_Recruitments.FromSqlRaw("Sp_Recruitment").ToList();
-
                 return students;
-            
         }
         
         public List<SelectListItem> GenderList()
@@ -452,96 +526,6 @@ namespace HRMS.Concrete
                 Value = "O -ve"
             });
             return items;
-        }
-
-        public string RecruitmentId()
-        {
-            var data = con.JobRequests.ToList().Count;
-            string RecruitmentId = "";
-            if (data == 0)
-            {
-                int id = 1;
-                RecruitmentId = "OASYS" + "-" + id;
-            }
-            else
-            {
-                int id = data + 1;
-                RecruitmentId = "OASYS" + "-" + id;
-            }
-            return RecruitmentId;
-        }
-
-        public Sp_Recruitment Sp_Recruitment_Getbyid(int? PosiId)
-        {
-            var data = con.Sp_Recruitments.Where(x => x.PositionId == PosiId).FirstOrDefault();
-            return data;
-        }
-
-        public int SaveEmployee(EmpJoining EmpJng)
-        {
-            EmpDetails Obj = new EmpDetails();
-            Obj.FirstName = EmpJng.EmpDtl.FirstName;
-            Obj.LastName = EmpJng.EmpDtl.LastName;
-            Obj.Doj = EmpJng.EmpDtl.Doj;
-            Obj.Father_SpouseName = EmpJng.EmpDtl.Father_SpouseName;
-            Obj.DesignationName = EmpJng.EmpDtl.DesignationName;
-            Obj.Dob = EmpJng.EmpDtl.Dob;
-            Obj.Gender = EmpJng.EmpDtl.Gender;
-            Obj.MaritialStatus = EmpJng.EmpDtl.MaritialStatus;
-            Obj.BloodGroup = EmpJng.EmpDtl.BloodGroup;
-            Obj.TelephoneNo = EmpJng.EmpDtl.TelephoneNo;
-            Obj.MobileNo = EmpJng.EmpDtl.MobileNo;
-            Obj.Email = EmpJng.EmpDtl.Email;
-            Obj.AltEmail = EmpJng.EmpDtl.AltEmail;
-            Obj.AadhaarNo = EmpJng.EmpDtl.AadhaarNo;
-            Obj.PanCardNo = EmpJng.EmpDtl.PanCardNo;
-            Obj.EmgContactName = EmpJng.EmpDtl.EmgContactName;
-            Obj.RelationWithEmp = EmpJng.EmpDtl.RelationWithEmp;
-            Obj.EmgContactNo = EmpJng.EmpDtl.EmgContactNo;
-            Obj.C_AddL1 = EmpJng.EmpDtl.C_AddL1;
-            Obj.C_AddL2 = EmpJng.EmpDtl.C_AddL2;
-            Obj.C_City = EmpJng.EmpDtl.C_City;
-            Obj.C_State = EmpJng.EmpDtl.C_State;
-            Obj.C_Zip = EmpJng.EmpDtl.C_Zip;
-            Obj.C_Country = EmpJng.EmpDtl.C_Country;
-            Obj.P_AddL1 = EmpJng.EmpDtl.P_AddL1;
-            Obj.P_AddL2 = EmpJng.EmpDtl.P_AddL2;
-            Obj.P_City = EmpJng.EmpDtl.P_City;
-            Obj.P_State = EmpJng.EmpDtl.P_State;
-            Obj.P_Zip = EmpJng.EmpDtl.P_Zip;
-            Obj.P_Country = EmpJng.EmpDtl.P_Country;
-            con.EmpDetailss.Add(Obj);
-            con.SaveChanges();
-            EmpBankDetails Obj1 = new EmpBankDetails();
-            Obj1.BankName = EmpJng.EmpBankDtl.BankName;
-            Obj1.AccountNo = EmpJng.EmpBankDtl.AccountNo;
-            Obj1.ConfAccountNo = EmpJng.EmpBankDtl.ConfAccountNo;
-            Obj1.IfscCode = EmpJng.EmpBankDtl.IfscCode;
-            Obj1.UanNo = EmpJng.EmpBankDtl.UanNo;
-            con.EmpBankDetailss.Add(Obj1);
-            con.SaveChanges();
-
-            if(EmpJng.EmpEduProfDtl.ToList().Count>0)
-            {
-                foreach (var item in EmpJng.EmpEduProfDtl)
-                {
-                    EmpEdu_ProfDetails Obj2 = new EmpEdu_ProfDetails();
-                    Obj2.Degree = item.Degree;
-                    Obj2.University = item.University;
-                    Obj2.DFrom = item.DFrom;
-                    Obj2.DTo = item.DTo;
-                    Obj2.PercentageGrade = item.PercentageGrade;
-                    Obj2.Specification = item.Specification;
-                    Obj2.PrvOrganizationName = item.PrvOrganizationName;
-                    Obj2.PrvDesignation = item.PrvDesignation;
-                    Obj2.PrvJobLocation = item.PrvJobLocation;
-                    Obj2.PrvWorkDuration = item.PrvWorkDuration;
-                    Obj2.PrvManagerNo = item.PrvManagerNo;
-                    con.EmpEdu_ProfDetailss.Add(Obj2);
-                    con.SaveChanges();
-                }
-            }
-            return 1;
         }
     }
 }

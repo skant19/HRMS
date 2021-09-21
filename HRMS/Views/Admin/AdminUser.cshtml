@@ -1,8 +1,10 @@
 ﻿@model HRMS.Models.AdminUser
+
 @{
     ViewData["Title"] = "AdminUser";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
 @if (TempData["msg"] != null)
 {
     @Html.Raw(TempData["msg"])
@@ -11,7 +13,6 @@
 <div class="card">
     <div class="card-body">
         <form action="/Admin/AdminUser" method="post">
-
             <fieldset class="mb-3">
                 <div class="form-group row">
                     <div class="col-lg-4">
@@ -36,7 +37,6 @@
                     </div>
                     <div class="col-lg-4">
                         <label class="col-form-label">Dob:</label>
-                     
                         @Html.TextBoxFor(x => x.Dob, new { @type = "date", @class = "form-control", @required = "true", @name = "dob", @id = "dob" })
                     </div>
                     <div class="col-lg-4">
@@ -48,11 +48,8 @@
                                 <option value="select department">select department</option>
                                 foreach (var item in ViewBag.Department)
                                 {
-
-
                                     <option value="@item.DepartmentId">@item.DepartmentName</option>
                                 }
-                            }
                             }
                         </select>
                     </div>
@@ -69,13 +66,10 @@
                                     <option value="@item.DesignationId">@item.DesignationName</option>
                                 }
                             }
-                            }
-
                         </select>
                     </div>
                     <div class="col-lg-4">
                         <label class="col-form-label">Role:</label>
-
                         <select class="form-control" name="RoleId" id="RoleId">
                             @if (ViewBag.Role != null)
                             {
@@ -84,7 +78,6 @@
                                 {
                                     <option value="@item.RoleId">@item.RoleName</option>
                                 }
-                            }
                             }
                         </select>
                     </div>
@@ -99,6 +92,7 @@
         </form>
     </div>
 </div>
+
 <div class="card">
     <div class="card-body">
         <table id="default-datatable" class="table table-bordered table-responsive" role="grid" aria-describedby="default-datatable_info">
@@ -110,9 +104,6 @@
                     <th>Email Id</th>
                     <th>Mobile Number</th>
                     <th>DOB</th>
-                    @*<th>Department</th>
-                    <th>Designation</th>
-                    <th>RoleName</th>*@
                     <th>Action</th>
                 </tr>
             </thead>
@@ -129,21 +120,15 @@
                         <td>@iteam.Email</td>
                         <td>@iteam.MobileNo</td>
                         <td>@iteam.Dob</td>
-                        @*<td>@iteam.DepartmentName</td>
-                        <td>@iteam.Designation</td>
-                        <td>@iteam.RoleName</td>*@
                         <td class="text-center">
                             <div class="list-icons">
                                 <div class="dropdown">
                                     <a href="#" class="list-icons-item" data-toggle="dropdown">
                                         <i class="icon-menu9"></i>
                                     </a>
-
                                     <div class="dropdown-menu dropdown-menu-right">
-
                                         <a href="#" onclick="Edit(@iteam.RegistrationId)" class="dropdown-item"><i class="fa fa-edit"></i> Edit</a>
                                         <a href="~/Admin/Delete/@iteam.RegistrationId" onclick="return confirm('Are you sure want to delete this record?')" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
-
                                     </div>
                                 </div>
                             </div>
@@ -151,18 +136,13 @@
                     </tr>
                 }
             </tbody>
-
         </table>
-
     </div>
-
-
-   
 </div>
+
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
 <script>
-   
     function Edit(ID) {
         debugger;
         $.ajax({
@@ -185,7 +165,4 @@
             }
         });
     }
-
-     
-
 </script>
