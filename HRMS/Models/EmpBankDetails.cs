@@ -10,6 +10,7 @@ namespace HRMS.Models
     {
         [Key]
         public int BankId { get; set; }
+        public int EmpProfId { get; set; }
         public string BankName { get; set; }
         public string AccountNo { get; set; }
         public string ConfAccountNo { get; set; }

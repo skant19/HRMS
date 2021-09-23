@@ -18,7 +18,7 @@ namespace HRMS.Models
         public List<SelectListItem> GenderList { get; set; }
         public List<SelectListItem> MaritalList { get; set; }
         public List<SelectListItem> BloodGroupList { get; set; }
-        //public List<EmpEduDetails> EmpEduDtls { get; set; }
-        //public List<EmpProfDetails> EmpProfDtls { get; set; }
+        public List<EmpEduDetails> EmpEduDtls { get; set; }
+        public List<EmpProfDetails> EmpProfDtls { get; set; }
     }
 }

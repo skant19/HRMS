@@ -325,6 +325,7 @@ namespace HRMS.Concrete
             con.SaveChanges();
 
             EmpBankDetails Obj1 = new EmpBankDetails();
+            Obj1.EmpProfId = Obj.EmpProfId;
             Obj1.BankName = EmpJng.EmpBankDtl.BankName;
             Obj1.AccountNo = EmpJng.EmpBankDtl.AccountNo;
             Obj1.ConfAccountNo = EmpJng.EmpBankDtl.ConfAccountNo;
@@ -333,26 +334,41 @@ namespace HRMS.Concrete
             con.EmpBankDetailss.Add(Obj1);
             con.SaveChanges();
 
-            EmpEduDetails Obj2 = new EmpEduDetails();
-            Obj2.Degree = EmpJng.EmpEduDtl.Degree;
-            Obj2.University = EmpJng.EmpEduDtl.University;
-            Obj2.DFrom = EmpJng.EmpEduDtl.DFrom;
-            Obj2.DTo = EmpJng.EmpEduDtl.DTo;
-            Obj2.PercentageGrade = EmpJng.EmpEduDtl.PercentageGrade;
-            Obj2.Specification = EmpJng.EmpEduDtl.Specification;
-            con.EmpEduDetailss.Add(Obj2);
-            con.SaveChanges();
+            if (EmpJng.EmpEduDtls.ToList().Count > 0)
+            {
+                foreach(var item in EmpJng.EmpEduDtls)
+                {
+                    EmpEduDetails Obj2 = new EmpEduDetails();
+                    Obj2.EmpProfId = Obj.EmpProfId;
+                    Obj2.Degree = item.Degree;
+                    Obj2.University = item.University;
+                    Obj2.DFrom = item.DFrom;
+                    Obj2.DTo = item.DTo;
+                    Obj2.PercentageGrade = item.PercentageGrade;
+                    Obj2.Specification = item.Specification;
+                    con.EmpEduDetailss.Add(Obj2);
+                    con.SaveChanges();
+                }
+            }
 
-            EmpProfDetails Obj3 = new EmpProfDetails();
-            Obj3.PrvOrganizationName = EmpJng.EmpProfDtl.PrvOrganizationName;
-            Obj3.PrvDesignation = EmpJng.EmpProfDtl.PrvDesignation;
-            Obj3.PrvJobLocation = EmpJng.EmpProfDtl.PrvJobLocation;
-            Obj3.PrvWorkDuration = EmpJng.EmpProfDtl.PrvWorkDuration;
-            Obj3.PrvManagerNo = EmpJng.EmpProfDtl.PrvManagerNo;
-            con.EmpProfDetailss.Add(Obj3);
-            con.SaveChanges();
+            if (EmpJng.EmpProfDtls.ToList().Count > 0)
+            {
+                foreach (var item in EmpJng.EmpProfDtls)
+                {
+                    EmpProfDetails Obj3 = new EmpProfDetails();
+                    Obj3.EmpProfId = Obj.EmpProfId;
+                    Obj3.PrvOrganizationName = item.PrvOrganizationName;
+                    Obj3.PrvDesignation = item.PrvDesignation;
+                    Obj3.PrvJobLocation = item.PrvJobLocation;
+                    Obj3.PrvWorkDuration = item.PrvWorkDuration;
+                    Obj3.PrvManagerNo = item.PrvManagerNo;
+                    con.EmpProfDetailss.Add(Obj3);
+                    con.SaveChanges();
+                }
+            }
             return 1;
         }
+        
         public List<AdminUser> AdminUsers()
         {
             var data = con.AdminUsers.ToList();
@@ -420,7 +436,6 @@ namespace HRMS.Concrete
             items.Add(new SelectListItem
             {
                 Text = "Select One",
-                Value = "Select One"
             }); 
             items.Add(new SelectListItem
             {
@@ -447,7 +462,6 @@ namespace HRMS.Concrete
             items.Add(new SelectListItem
             {
                 Text = "Select One",
-                Value = "Select One"
             }); 
             items.Add(new SelectListItem
             {
@@ -483,7 +497,6 @@ namespace HRMS.Concrete
             items.Add(new SelectListItem
             {
                 Text = "Select One",
-                Value = "Select One"
             });
             items.Add(new SelectListItem
             {

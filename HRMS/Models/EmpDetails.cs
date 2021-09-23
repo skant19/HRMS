@@ -10,7 +10,6 @@ namespace HRMS.Models
     {
         [Key]
         public int EmpProfId { get; set; }
-        public int EmpId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? Doj { get; set; }

@@ -8,8 +8,8 @@ namespace HRMS.Models
 {
     public partial class EmpProfDetails
     {
-        [Key]
-        public string ProfId { get; set; }
+        public int ProfId { get; set; }
+        public int EmpProfId { get; set; }
         public string PrvOrganizationName { get; set; }
         public string PrvDesignation { get; set; }
         public string PrvJobLocation { get; set; }

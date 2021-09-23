@@ -42,10 +42,9 @@ namespace HRMS.Controllers
         }
 
         [HttpPost]
-        public IActionResult EmpJoining(EmpJoining obj, string Gender, string[] degree, string[] university, string[] dfrom, string[] dto, string[] percentagegrade, string[] specification, string[] prvorganisiation, string[] prvdesignation, string[] prvlocation, string[] prvworkduration, string[] prvmanagerno)
+        public IActionResult EmpJoining(EmpJoining obj, string[] degree, string[] university, string[] dfrom, string[] dto, string[] percentagegrade, string[] specification, string[] prvorganisiation, string[] prvdesignation, string[] prvlocation, string[] prvworkduration, string[] prvmanagerno)
         {
-            List<EmpEduDetails> EmpEduDetails = new
-                List<EmpEduDetails>();
+            List<EmpEduDetails> EmpEduDetails = new List<EmpEduDetails>();
             EmpEduDetails obj1;
             obj1 = new EmpEduDetails();
             if (degree.Length > 0)
@@ -58,12 +57,12 @@ namespace HRMS.Controllers
                     obj1.DTo = Convert.ToDateTime(dto[i]);
                     obj1.PercentageGrade = percentagegrade[i];
                     obj1.Specification = specification[i];
+                    EmpEduDetails.Add(obj1);
+                    obj1 = new EmpEduDetails();
                 }
-                EmpEduDetails.Add(obj1);
             }
 
-            List<EmpProfDetails> EmpProfDetails = new
-                List<EmpProfDetails>();
+            List<EmpProfDetails> EmpProfDetails = new List<EmpProfDetails>();
             EmpProfDetails obj2;
             obj2 = new EmpProfDetails();
             if (prvorganisiation.Length > 0)
@@ -75,12 +74,13 @@ namespace HRMS.Controllers
                     obj2.PrvJobLocation = prvlocation[i];
                     obj2.PrvWorkDuration = prvworkduration[i];
                     obj2.PrvManagerNo = prvmanagerno[i];
+                    EmpProfDetails.Add(obj2);
+                    obj2 = new EmpProfDetails();
                 }
-                EmpProfDetails.Add(obj2);
             }
 
-            obj.EmpEduDtl = obj1;
-            obj.EmpProfDtl = obj2;
+            obj.EmpEduDtls = EmpEduDetails;
+            obj.EmpProfDtls = EmpProfDetails;
             int a = applicationrepository.SaveEmployee(obj);
             if (a > 1)
             {

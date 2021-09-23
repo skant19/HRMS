@@ -10,6 +10,7 @@ namespace HRMS.Models
     {
         [Key]
         public int EduId { get; set; }
+        public int EmpProfId { get; set; }
         public string Degree { get; set; }
         public string University { get; set; }
         public DateTime? DFrom { get; set; }

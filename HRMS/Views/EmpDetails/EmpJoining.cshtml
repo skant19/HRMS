@@ -5,8 +5,6 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-
-
 <style>
     .required:after {
         content: " *";
@@ -22,12 +20,34 @@
         position: relative;
         right: 12px;
     }
+
+    #btnScrollToTop {
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #e62739;
+        box-shadow: 0 0 10px rgba(0, 0, 0.25);
+        color: #ffffff;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+        #btnScrollToTop:active {
+            background: #cc2333;
+        }
 </style>
+
 @if (TempData["msg"] != null)
 {
     @Html.Raw(TempData["msggggg"])
 }
+
 <form action="/EmpDetails/EmpJoining" method="post">
+
     <div class="card">
         <div class="card-body">
             <h3>Personal Details</h3>
@@ -116,7 +136,6 @@
                     </div>
                 </div>
             </fieldset>
-
         </div>
     </div>
     <div class="card">
@@ -303,6 +322,9 @@
                         <div class="btn-group" style="float:right;">
                             <button type="submit" id="Submit" disabled class="btn btn-primary mr">Submit</button>
                             <button type="reset" onclick="window.location.reload()" class="btn btn-danger mr " value="Reset">Cancel</button>
+                            <button type="button" id="btnScrollToTop">
+                                <i class="material-icons">arrow_upward</i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -310,7 +332,8 @@
         </div>
     </div>
 </form>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script>
     function AadharValidate() {
         var aadhar = document.getElementById("txtAadhar").value;
@@ -345,6 +368,7 @@
     function Remove1(id) {
         $("#tr_" + id).remove();
     }
+
     function AddMore2() {
         var count = 1;
         var data = "";
@@ -395,4 +419,17 @@
             txtPassportNumber.focus();
         }
     }
+
+    const btnScrollToTop = document.querySelector("#btnScrollToTop");
+    btnScrollToTop.addEventListener("click", function () {
+        window.scrollTo(0, 0);
+    });
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 250) {
+            $('#btnScrollToTop').show(1000);
+        }
+        else {
+            $('#btnScrollToTop').hide(1000);
+        }
+    });
 </script>

@@ -34,7 +34,6 @@ namespace HRMS.Models
         public virtual DbSet<EmpEduDetails> EmpEduDetailss { get; set; }
         public virtual DbSet<EmpProfDetails> EmpProfDetailss { get; set; }
 
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -470,10 +469,10 @@ namespace HRMS.Models
 
             modelBuilder.Entity<EmpBankDetails>(entity =>
             {
-                entity.HasKey(e => e.BankId);
+            entity.HasKey(e => e.BankId);
 
-                entity.ToTable("EmpBankDetails");
-
+            entity.ToTable("EmpBankDetails");
+                
                 entity.Property(e => e.BankName)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -589,6 +588,7 @@ namespace HRMS.Models
             
             OnModelCreatingPartial(modelBuilder);
         }
+        
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
