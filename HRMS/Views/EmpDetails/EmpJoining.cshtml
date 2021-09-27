@@ -78,7 +78,7 @@
                     <div class="col-lg-4">
                         <label class="col-form-label required">Date of Birth:</label>
                         <div class="input-group">
-                            @Html.TextBoxFor(x => x.EmpDtl.Dob, new { @type = "date", @class = "form-control", @required = "true", @name = "dob", @id = "dob" })
+                            @Html.TextBoxFor(x => x.EmpDtl.Dob, new { @type = "date", @class = "form-control", @required = "true", @name = "dob", @id = "dob", @onchange = "dobValidation()" })
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -432,4 +432,17 @@
             $('#btnScrollToTop').hide(1000);
         }
     });
+
+    function dobValidation() {
+        var x = new Date($("#dob").val());
+        var Cnow = new Date();
+        if ($("#dob").val() == "") {
+            $("#dob").focus();
+        }
+        else if (Cnow.getFullYear() - x.getFullYear() < 18) {
+            alert('You Are Not 18 Year');
+            $("#dob").val('');
+        }
+        else { }
+    }
 </script>

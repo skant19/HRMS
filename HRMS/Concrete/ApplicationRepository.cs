@@ -176,7 +176,6 @@ namespace HRMS.Concrete
             return data;
         }
 
-
         public int DeleteUser(int ID)
         {
             var data = con.AdminUsers.Where(x => x.RegistrationId == ID).FirstOrDefault();

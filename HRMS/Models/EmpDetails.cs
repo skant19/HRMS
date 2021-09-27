@@ -16,7 +16,10 @@ namespace HRMS.Models
         public string Father_SpouseName { get; set; }
         public string DesignationName { get; set; }
         public DateTime? Dob { get; set; }
+        
+        [Required(ErrorMessage = "Gender is required.")]
         public string Gender { get; set; }
+        
         public string MaritialStatus { get; set; }
         public string BloodGroup { get; set; }
         public string TelephoneNo { get; set; }
