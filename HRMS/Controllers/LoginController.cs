@@ -42,28 +42,28 @@ namespace HRMS.Controllers
                        HttpContext.Session.SetString("roleid", roleid.ToString());
                         HttpContext.Session.SetString("regid", regid.ToString());
                         HttpContext.Session.SetString("regid", applicationrepository.GetAdminUser(regid).FirstName);
-                        return RedirectToAction("Index", "Admin");
+                        return RedirectToAction("Dashboard", "Home");
                     }
                     else if (roleid == 2)
                     {
                         HttpContext.Session.SetString("roleid", roleid.ToString());
                         HttpContext.Session.SetString("regid", regid.ToString());
                         HttpContext.Session.SetString("regid", applicationrepository.GetAdminUser(regid).FirstName);
-                        return RedirectToAction("Manager", "User");
+                        return RedirectToAction("Dashboard", "Home");
                     }
                     else if (roleid == 3)
                     {
                         HttpContext.Session.SetString("roleid", roleid.ToString());
                         HttpContext.Session.SetString("regid", regid.ToString());
                         HttpContext.Session.SetString("regid", applicationrepository.GetAdminUser(regid).FirstName);
-                        return RedirectToAction("TL", "User");
+                        return RedirectToAction("Dashboard", "Home");
                     }
                     else if (roleid == 4)
                     {
                         HttpContext.Session.SetString("roleid", roleid.ToString());
                         HttpContext.Session.SetString("regid", regid.ToString());
                         HttpContext.Session.SetString("regid", applicationrepository.GetAdminUser(regid).FirstName);
-                        return RedirectToAction("HR", "User");
+                        return RedirectToAction("Dashboard", "Home");
                     }
                     else
                     {

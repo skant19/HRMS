@@ -172,7 +172,8 @@ namespace HRMS.Concrete
 
         public Sp_Recruitment Sp_Recruitment_Getbyid(int? PosiId)
         {
-            var data = con.Sp_Recruitments.Where(x => x.PositionId == PosiId).FirstOrDefault();
+            var students = con.Sp_Recruitments.FromSqlRaw("Sp_Recruitment").ToList();
+            var data = students.Where(x => x.PositionId == PosiId).FirstOrDefault();
             return data;
         }
 
@@ -553,7 +554,7 @@ namespace HRMS.Concrete
             app.LastName = application.LastName;
             app.MobileNo = application.MobileNo;
             app.Email = application.Email;
-            app.Recruitmentid = application.Recruitmentid;
+            app.RecruitmentId = application.RecruitmentId;
             app.Resume = application.Resume;
             con.Applications.Add(app);
             con.SaveChanges();

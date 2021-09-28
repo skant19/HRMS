@@ -589,11 +589,11 @@ namespace HRMS.Models
 
             modelBuilder.Entity<Application>(entity =>
             {
-                entity.HasKey(e => e.Applicationid);
+                entity.HasKey(e => e.ApplicationId);
 
                 entity.ToTable("Application");
 
-                entity.Property(e => e.Recruitmentid)
+                entity.Property(e => e.RecruitmentId)
                     .HasMaxLength(100)
                     .IsUnicode(false);
                 entity.Property(e => e.FirstName)

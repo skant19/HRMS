@@ -45,7 +45,7 @@ namespace HRMS.Controllers
             Application app = new Application();
             app.FirstName = fname;
             app.LastName = lname;
-            app.Recruitmentid = recruitmentId;
+            app.RecruitmentId = recruitmentId;
             app.MobileNo = mobileno;
             app.Email = email;
             app.Resume = SaveToPhysicalLocation(AddImage);

@@ -8,7 +8,7 @@
 <form action="/Applicant/Applicationlist" method="get">
     <div class="card">
         <div class="card-body">
-            @Html.HiddenFor(x => x.Applicationid, new { @class = "form-control", @name = "Applicationid", @id = "Applicationid" })
+            @Html.HiddenFor(x => x.ApplicationId, new { @class = "form-control", @name = "Applicationd", @id = "Applicationid" })
 
             <table id="default-datatable" class="table table-bordered" role="grid" aria-describedby="default-datatable_info">
                 <thead>
@@ -30,69 +30,50 @@
                     @foreach (var iteam in ViewBag.Applicationlist)
                     {
                         count = count + 1;
-                    <tr role="row" class="even">
-                        <td>@count</td>
-                        <td>@iteam.Recruitmentid</td>
-                        <td>@iteam.FirstName</td>
-                        <td>@iteam.LastName</td>
-                        <td>@iteam.MobileNo</td>
-                        <td>@iteam.Email</td>
-                        <td>@iteam.Resume</td>
-                        <td class="text-center">
-                            <div class="list-icons">
-                                <div class="dropdown">
-                                    <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a href="#" class="dropdown-item"><i class="fa fa-edit"></i> Create Job Profile</a>
-                                        <a href="#" class="dropdown-item"><i class="fa fa-trash"></i> Remove</a>
+                        <tr role="row" class="even">
+                            <td>@count</td>
+                            <td>@iteam.Recruitmentid</td>
+                            <td>@iteam.FirstName</td>
+                            <td>@iteam.LastName</td>
+                            <td>@iteam.MobileNo</td>
+                            <td>@iteam.Email</td>
+                            <td>@iteam.Resume</td>
+                            <td class="text-center">
+                                <div class="list-icons">
+                                    <div class="dropdown">
+                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="#" class="dropdown-item"><i class="fa fa-edit"></i> Create Job Profile</a>
+                                            <a href="#" class="dropdown-item"><i class="fa fa-trash"></i> Remove</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
 </form>
+
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
 <script>
 
     function Edit(Id) {
-        debugger;
         $.ajax({
             type: "POST",
             url: "/User/CreateJobProfile",
             data: { Id: Id },
             dataType: "json",
             success: function (data) {
-                debugger;
-                /* $("#Submit").text("Update");*/
-                debugger;
                 $("#Id").val(data.PositionId);
-
-                //$("#firstname").val(data.firstName);
-                //$("#lastname").val(data.lastName);
-                //$("#mobileno").val(data.mobileNo);
-                //$("#email").val(data.email);
-                //$("#dob").val(data.dob);
-                //$("#departmentname").val(data.departmentName);
-                //$("#designation").val(data.designation);
-                //$("#rolename").val(data.roleName);
-                //var appvdate = f4.split('-');
-
-                //var today = appvdate[2] + "-" + (appvdate[1]) + "-" + (appvdate[0]);
-
-                //$('#dob').val(today);
             }
         });
     }
-
-
 
 </script>
 
