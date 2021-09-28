@@ -539,5 +539,61 @@ namespace HRMS.Concrete
             });
             return items;
         }
+
+        public JobRequest GetJobRequest(int? jobid)
+        {
+            var data = con.JobRequests.Where(x => x.Id == jobid).FirstOrDefault();
+            return data;
+        }
+
+        public int Saveapplication(Application application)
+        {
+            Application app = new Application();
+            app.FirstName = application.FirstName;
+            app.LastName = application.LastName;
+            app.MobileNo = application.MobileNo;
+            app.Email = application.Email;
+            app.Recruitmentid = application.Recruitmentid;
+            app.Resume = application.Resume;
+            con.Applications.Add(app);
+            con.SaveChanges();
+            return 1;
+        }
+
+        public int savejobprofile(JobRequest jobRequest)
+        {
+            JobRequest job = new JobRequest();
+            job.Hrremark = jobRequest.Hrremark;
+            job.Position = jobRequest.Position;
+            job.NoofResource = jobRequest.NoofResource;
+            job.RecruitmentId = jobRequest.RecruitmentId;
+            job.Technology = jobRequest.Technology;
+            job.Remark = jobRequest.Remark;
+            job.Experience = jobRequest.Experience;
+            con.JobRequests.Add(job);
+            con.SaveChanges();
+            return 1;
+        }
+
+        public int Removeprofile(int id)
+        {
+            var students = con.Sp_Recruitments.FromSqlRaw("Sp_Recruitment").ToList();
+            var data = students.Where(x => x.PositionId == id).FirstOrDefault();
+            con.Sp_Recruitments.Remove(data);
+            con.SaveChanges();
+            return 1;
+        }
+
+        public List<JobRequest> jobrequest()
+        {
+            var data = con.JobRequests.ToList();
+            return data;
+        }
+
+        public List<Application> applicationlist()
+        {
+            var data = con.Applications.ToList();
+            return data;
+        }
     }
 }

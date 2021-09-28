@@ -33,6 +33,7 @@ namespace HRMS.Models
         public virtual DbSet<EmpBankDetails> EmpBankDetailss { get; set; }
         public virtual DbSet<EmpEduDetails> EmpEduDetailss { get; set; }
         public virtual DbSet<EmpProfDetails> EmpProfDetailss { get; set; }
+        public virtual DbSet<Application> Applications { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -585,7 +586,45 @@ namespace HRMS.Models
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             });
-            
+
+            modelBuilder.Entity<Application>(entity =>
+            {
+                entity.HasKey(e => e.Applicationid);
+
+                entity.ToTable("Application");
+
+                entity.Property(e => e.Recruitmentid)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+                entity.Property(e => e.FirstName)
+                   .HasMaxLength(100)
+                   .IsUnicode(false);
+                entity.Property(e => e.LastName)
+                   .HasMaxLength(100)
+                   .IsUnicode(false);
+                entity.Property(e => e.MobileNo)
+                   .HasMaxLength(100)
+                   .IsUnicode(false);
+                entity.Property(e => e.Email)
+                   .HasMaxLength(100)
+                   .IsUnicode(false);
+                entity.Property(e => e.Resume)
+                   .HasMaxLength(500)
+                   .IsUnicode(false);
+                entity.Property(e => e.CreatedBy)
+                   .HasMaxLength(50)
+                   .IsUnicode(false);
+                entity.Property(e => e.ModifiedBy)
+                   .HasMaxLength(50)
+                   .IsUnicode(false);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+
+
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
         

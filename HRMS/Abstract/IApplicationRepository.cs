@@ -16,6 +16,7 @@ namespace HRMS.Abstract
         AdminUser GetAdminUser(int? RegId);
         Role GetRole(int? RoleId);
         Sp_Recruitment Sp_Recruitment_Getbyid(int? PosiId);
+        JobRequest GetJobRequest(int? jobid);
 
         string EncodeBase64(string value);
         string DecodeBase64(string value);
@@ -31,6 +32,9 @@ namespace HRMS.Abstract
         int DeleteRole(int id);
         int SaveRecruitment(Recruitment recruitment);
         int SaveEmployee(EmpJoining EmpJng);
+        int Saveapplication(Application application);
+        int savejobprofile(JobRequest jobRequest);
+        int Removeprofile(int id);
 
         List<Department> department();
         List<AdminUser> AdminUsers();
@@ -45,5 +49,8 @@ namespace HRMS.Abstract
         List<SelectListItem> BloodGroupList();
         List<ExperienceTable> Experence_Table();
         List<Sp_Recruitment> Sp_Recruitment();
+        List<JobRequest> jobrequest();
+        List<Application> applicationlist();
+
     }
 }
